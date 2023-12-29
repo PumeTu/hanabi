@@ -1,11 +1,12 @@
-pub trait Ops {
-    fn forward(&self) -> Self;
-    fn backward(&self) -> Self;
+pub enum Ops {
+    UnaryOps,
+    BinaryOps,
+    LoadOps,
 }
 
 pub enum UnaryOps {
-    LOG,
-    EXP,
+    LOG2,
+    EXP2,
 }
 
 pub enum BinaryOps {
@@ -13,4 +14,14 @@ pub enum BinaryOps {
     SUB,
     MUL,
     DIV,
+}
+
+pub enum ReduceOps {
+    SUM,
+    MAX,
+}
+
+pub enum LoadOps {
+    EMPTY,
+    CONST,
 }

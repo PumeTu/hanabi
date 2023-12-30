@@ -1,3 +1,4 @@
+mod dtype;
 mod layout;
 mod lazy;
 mod ops;

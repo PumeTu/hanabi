@@ -3,7 +3,5 @@ pub struct LazyBuffer<T> {
 }
 
 impl<T> LazyBuffer<T> {
-    pub fn new(buffer: Vec<T>) -> Self {
-        LazyBuffer { buffer }
-    }
+    pub fn init_const(value: T, )
 }

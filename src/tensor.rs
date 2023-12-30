@@ -1,29 +1,35 @@
-use crate::layout::Layout;
-use crate::lazy::LazyBuffer;
-use crate::ops::Ops;
-use crate::shape::Shape;
+use crate::{dtype::Dtype, layout::Layout, lazy::LazyBuffer, ops::Ops, shape::Shape};
 
-pub struct Tensor<T> {
-    buffer: LazyBuffer<T>,
+pub struct Tensor {
+    buffer: LazyBuffer,
     layout: Layout,
     ops: Ops,
+    dtype: Dtype,
     requires_grad: Option<bool>,
 }
 
-impl<T> Tensor<T> {
-    fn init(buffer: LazyBuffer<T>, shape: Shape, ops: Ops) -> Self {
+impl Tensor {
+    fn init(
+        buffer: LazyBuffer,
+        shape: Shape,
+        ops: Ops,
+        dtype: Dtype,
+        requires_grad: Option<bool>,
+    ) -> Self {
         let layout = Layout::init(&shape);
         Tensor {
             buffer,
             layout,
             ops,
-            requires_grad: None,
+            dtype,
+            requires_grad,
         }
     }
 
-    pub fn zeros(&shape: Shape) -> Self {
-        let buffer = LazyBuffer::new(vec![0.; shape.0.iter().product()]);
-        Self::init(buffer, shape, Ops::LoadOps::CONST)
+    pub fn zeros(shape: &Shape, dtype: Option<&str>) -> Self {
+        let dtype = Dtype::from_str(dtype);
+        let buffer = LazyBuffer::init_const(0, &dtype, &shape)
+        Self {}
     }
 
     pub fn layout(&self) -> &Layout {

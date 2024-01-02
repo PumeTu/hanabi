@@ -7,3 +7,9 @@ impl From<&[usize]> for Shape {
         Shape(item.to_vec())
     }
 }
+
+impl Shape {
+    pub fn num_elem(&self) -> f32 {
+        self.0.iter().product()
+    }
+}

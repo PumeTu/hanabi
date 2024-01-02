@@ -9,9 +9,9 @@ pub struct Tensor {
 }
 
 impl Tensor {
-    fn init(
+    fn new(
         buffer: LazyBuffer,
-        shape: Shape,
+        shape: &Shape,
         ops: Ops,
         dtype: Dtype,
         requires_grad: Option<bool>,
@@ -26,10 +26,10 @@ impl Tensor {
         }
     }
 
-    pub fn zeros(shape: &Shape, dtype: Option<&str>) -> Self {
+    pub fn zeros(shape: &Shape, dtype: Option<&str>, requires_grad: Option<bool>) -> Self {
         let dtype = Dtype::from_str(dtype);
-        let buffer = LazyBuffer::init_const(0, &dtype, &shape)
-        Self {}
+        let buffer = LazyBuffer::init_const(0, &dtype, &shape);
+        Self::init(buffer, &shape, Ops::LoadOps, dtype, requires_grad)
     }
 
     pub fn layout(&self) -> &Layout {

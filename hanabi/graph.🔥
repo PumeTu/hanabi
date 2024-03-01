@@ -11,19 +11,13 @@ struct Node:
 
     var tensor: Tensor[DType.float32]
     var requires_grad: Bool
-    var childrens: DynamicVector[Node]
+    var grad: Tensor[DType.float32]
 
     fn __init__(inout self, tensor: Tensor[DType.float32], requires_grad: Bool):
         self.tensor = tensor
         self.requires_grad = requires_grad
+        self.grad = Tensor[DType.float32](tensor.spec)
+        self.ops = 
 
-    fn __copyinit__(inout self, existing: Self):
-        self.tensor = existing.tensor
-        self.requires_grad = existing.requires_grad
-
-    fn __moveinit__(inout self, existing: Self):
-        self.tensor = existing.tensor
-        self.requires_grad = existing.requires_grad
-
-    fn __add__(self: Self, other: Self) -> Self:
-        ...
+    fn __add__(inout self: Self, other: Self) -> Self:
+        return Node(self.tensor + other.tensor)

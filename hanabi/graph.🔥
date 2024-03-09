@@ -1,23 +1,20 @@
-from collections import DynamicVector
-from tensor import Tensor, TensorSpec
+from collections import Dict
+from tensor import Tensor
+from random import rand
 
 @value
-struct Node:
-    """A node in the computation graph
-    Args:
-        tensor: the tensor stored
-        requires_grad (Bool): whether the tensor requries a gradient to be calculated or not.
-    """
+struct Node[T: DType]:
+    var tensor: Tensor[T]
 
-    var tensor: Tensor[DType.float32]
-    var requires_grad: Bool
-    var grad: Tensor[DType.float32]
-
-    fn __init__(inout self, tensor: Tensor[DType.float32], requires_grad: Bool):
+    fn __init__(inout self, tensor: Tensor[T]):
         self.tensor = tensor
-        self.requires_grad = requires_grad
-        self.grad = Tensor[DType.float32](tensor.spec)
-        self.ops = 
+        
+    fn __add__(inout self, other: Self) raises -> Self:
+        var out = self.tensor + other.tensor
+        return Self(out)
 
-    fn __add__(inout self: Self, other: Self) -> Self:
-        return Node(self.tensor + other.tensor)
+fn main() raises:
+    var t1 = Node(rand[DType.float32](3, 3))
+    var t2 = Node(rand[DType.float32](3, 3))
+    var out = t1 + t2
+    print(out.tensor)

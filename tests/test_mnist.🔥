@@ -1,0 +1,14 @@
+from pathlib import Path, cwd
+
+fn parse_images(path: Path) raises:
+    var bytes_data = path.read_bytes()
+    print(bytes_data)
+
+fn download_mnist() raises:
+    var base_url = "data/mnist/"
+    var train_img_path = base_url + "t10k-images.idx3-ubyte"
+    parse_images(train_img_path)
+
+fn main() raises:
+    print(cwd())
+    download_mnist()

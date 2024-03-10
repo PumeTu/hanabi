@@ -1,14 +1,16 @@
-from pathlib import Path, cwd
+from pathlib import Path
+from tensor import TensorShape
 
-fn parse_images(path: Path) raises:
-    var bytes_data = path.read_bytes()
-    print(bytes_data)
+alias float32 = DType.float32
 
-fn download_mnist() raises:
+fn download_mnist() raises -> Tuple[Tensor[float32], Tensor[float32], Tensor[float32], Tensor[float32]]:
     var base_url = "data/mnist/"
-    var train_img_path = base_url + "t10k-images.idx3-ubyte"
-    parse_images(train_img_path)
+    # mojo currently does not support slicing a tensor
+    var x_train = Path(base_url+"train-images.idx3-ubyte").read_bytes().astype[float32]()
+    var y_train = Path(base_url+"train-labels.idx1-ubyte").read_bytes().astype[float32]()
+    var x_test= Path(base_url+"t10k-images.idx3-ubyte").read_bytes().astype[float32]()
+    var y_test= Path(base_url+"t10k-labels.idx1-ubyte").read_bytes().astype[float32]()
+    return x_train, y_train, x_test, y_test
 
 fn main() raises:
-    print(cwd())
-    download_mnist()
+    var mnist = download_mnist()
